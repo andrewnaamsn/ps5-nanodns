@@ -13,7 +13,6 @@ jobs:
         run: |
           git clone https://github.com/SceneCollective/ps5-payload-sdk.git $HOME/ps5-sdk
           echo "PS5_PAYLOAD_SDK=$HOME/ps5-sdk" >> $GITHUB_ENV
-          cd $HOME/ps5-sdk && make
 
       - name: Build ELF
         run: |
