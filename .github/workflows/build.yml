@@ -1,0 +1,27 @@
+name: Build PS5 nanoDNS
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install PS5 Payload SDK
+        run: |
+          git clone https://github.com/SceneCollective/ps5-payload-sdk.git $HOME/ps5-sdk
+          echo "PS5_PAYLOAD_SDK=$HOME/ps5-sdk" >> $GITHUB_ENV
+          cd $HOME/ps5-sdk && make
+
+      - name: Build ELF
+        run: |
+          export PS5_PAYLOAD_SDK=$HOME/ps5-sdk
+          make
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nanoDNS-ELF
+          path: nanoDNS.elf
